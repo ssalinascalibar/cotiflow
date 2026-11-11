@@ -1,0 +1,17 @@
+[
+  {
+    "id": "product-001",
+    "name": "Cuaderno A5",
+    "description": "Cuaderno de tapa dura con hojas cuadriculadas."
+  },
+  {
+    "id": "product-002",
+    "name": "Lápiz de tinta azul",
+    "description": "Lápiz de tinta azul con punta media."
+  },
+  {
+    "id": "product-003",
+    "name": "Carpeta de documentos",
+    "description": "Carpeta con elástico para documentos tamaño carta."
+  }
+]

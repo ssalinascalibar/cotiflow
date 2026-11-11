@@ -1,0 +1,17 @@
+[
+  {
+    "id": "customer-001",
+    "name": "Comercial Los Alerces",
+    "email": "contacto@losalerces.example"
+  },
+  {
+    "id": "customer-002",
+    "name": "Taller Horizonte",
+    "email": "contacto@horizonte.example"
+  },
+  {
+    "id": "customer-003",
+    "name": "Estudio Arrayán",
+    "email": "contacto@arrayan.example"
+  }
+]
