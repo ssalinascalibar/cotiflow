@@ -9,6 +9,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import Typography from "@mui/material/Typography";
 import { MdEdit, MdDeleteOutline } from "../../assets/icons";
 import ProductContext, { type Product } from "../../context/ProductContext";
 import CreateModalButton from "../../shared/components/CreateModalButton";
@@ -49,9 +50,21 @@ export default function Products() {
 
   return (
     <Box sx={{ pb: "calc(88px + env(safe-area-inset-bottom, 0px))" }}>
+      <Typography
+        id="products-title"
+        component="h1"
+        variant="h4"
+        sx={{
+          mb: { xs: 3, md: 4 },
+          fontSize: { xs: "1.75rem", sm: "2rem", md: "2.25rem" },
+          fontWeight: 600,
+        }}
+      >
+        Productos
+      </Typography>
       <TableContainer component={Paper} variant="outlined">
         <Table
-          aria-label="Productos"
+          aria-labelledby="products-title"
           sx={{
             tableLayout: "fixed",
             "& .MuiTableCell-root": {

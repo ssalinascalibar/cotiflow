@@ -12,6 +12,8 @@ La ruta `/dashboard` muestra tres tarjetas de MUI con los contadores de Clientes
 
 Los componentes de funcionalidades y navegación usan TSX, pero los puntos de entrada aún son JSX; la configuración de TypeScript `strict` y Vitest sigue pendiente. El alcance funcional y las etapas siguientes describen planes, no autorización para implementarlos.
 
+Las pantallas de clientes y productos muestran los títulos «Clientes» y «Productos» como encabezados `h1` sobre sus tablas, con tamaños adaptables al ancho de pantalla y el estilo del Dashboard. Cada tabla se vincula a su título mediante `aria-labelledby`.
+
 Los listados de clientes y productos incluyen una columna «Acciones» con botones de solo iconos: `MdEdit` para editar y `MdDeleteOutline` para eliminar, centralizados en `src/assets/icons/index.ts`. Se muestran en gris suave y toman color azul o rojo, respectivamente, al pasar el mouse, enfocarlos con el teclado o pulsarlos. Conservan etiquetas accesibles y áreas táctiles de 44 × 44 px. Ambos aparecen en la misma fila de cada registro. En clientes, editar abre el formulario con los datos del registro; eliminar retira directamente de la lista al cliente correspondiente por ID. En productos, editar abre el formulario con sus datos y eliminar retira directamente el producto por ID. Las tablas se adaptan al ancho disponible, ajustando los textos y el espacio de las acciones según el tamaño de pantalla.
 
 La tabla de clientes muestra Nombre, RUT, Correo electrónico y Acciones. Cada fixture incluye un `rut` de ejemplo de tipo `string`, también declarado en el tipo `Customer`. El formulario sigue solicitando nombre y correo: los nuevos clientes se crean con `rut: ""` y editar conserva el RUT existente.

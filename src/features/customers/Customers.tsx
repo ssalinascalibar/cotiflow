@@ -9,6 +9,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import Typography from "@mui/material/Typography";
 import { MdEdit, MdDeleteOutline } from "../../assets/icons";
 import CustomersContext, { type Customer } from "../../context/CustomersContext";
 import CreateModalButton from "../../shared/components/CreateModalButton";
@@ -42,9 +43,21 @@ export default function Customers() {
 
   return (
     <Box sx={{ pb: "calc(88px + env(safe-area-inset-bottom, 0px))" }}>
+      <Typography
+        id="customers-title"
+        component="h1"
+        variant="h4"
+        sx={{
+          mb: { xs: 3, md: 4 },
+          fontSize: { xs: "1.75rem", sm: "2rem", md: "2.25rem" },
+          fontWeight: 600,
+        }}
+      >
+        Clientes
+      </Typography>
       <TableContainer component={Paper} variant="outlined">
         <Table
-          aria-label="Clientes"
+          aria-labelledby="customers-title"
           sx={{
             tableLayout: "fixed",
             "& .MuiTableCell-root": {
