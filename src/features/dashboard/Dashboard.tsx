@@ -10,7 +10,7 @@ export default function Dashboard() {
   const productContext = useContext(ProductContext);
 
   if (customersContext === null || productContext === null) {
-    throw new Error('Dashboard debe estar dentro de CustomersProvider y ProductsProvider');
+    throw new Error('Falta un proveedor del Dashboard');
   }
 
   const { customers } = customersContext;
