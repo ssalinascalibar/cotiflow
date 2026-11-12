@@ -5,6 +5,11 @@ import Typography from '@mui/material/Typography';
 import CustomersContext from '../../context/CustomersContext';
 import ProductContext from '../../context/ProductContext';
 
+const priceFormatter = new Intl.NumberFormat('es-CL', {
+  style: 'currency',
+  currency: 'CLP',
+});
+
 export default function Dashboard() {
   const customersContext = useContext(CustomersContext);
   const productContext = useContext(ProductContext);
@@ -15,6 +20,11 @@ export default function Dashboard() {
 
   const { customers } = customersContext;
   const { products } = productContext;
+
+  const totalProductPrice = products.reduce(
+  (total, product) => total + product.price,
+  0,
+);
 
   const counters = [
     { label: 'Clientes', value: customers.length },
@@ -62,6 +72,16 @@ export default function Dashboard() {
             >
               {value}
             </Typography>
+            {label === 'Productos' && (
+  <Typography
+    component="dd"
+    variant="body2"
+    color="text.secondary"
+    sx={{ mt: 1, ml: 0 }}
+  >
+    Suma de precios: {priceFormatter.format(totalProductPrice)}
+  </Typography>
+)}
           </Card>
         ))}
       </Box>
