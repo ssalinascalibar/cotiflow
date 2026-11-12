@@ -2,16 +2,19 @@
   {
     "id": "product-001",
     "name": "Cuaderno A5",
-    "description": "Cuaderno de tapa dura con hojas cuadriculadas."
+    "description": "Cuaderno de tapa dura con hojas cuadriculadas.",
+    "price": 3500
   },
   {
     "id": "product-002",
     "name": "Lápiz de tinta azul",
-    "description": "Lápiz de tinta azul con punta media."
+    "description": "Lápiz de tinta azul con punta media.",
+    "price": 500
   },
   {
     "id": "product-003",
     "name": "Carpeta de documentos",
-    "description": "Carpeta con elástico para documentos tamaño carta."
+    "description": "Carpeta con elástico para documentos tamaño carta.",
+    "price": 1500
   }
 ]

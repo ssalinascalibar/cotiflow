@@ -5,6 +5,7 @@ export type Product = {
   id: string;
   name: string;
   description: string;
+  price: number;
 };
 
 type ProductContextValue = {
@@ -24,6 +25,7 @@ function ProductsProvider({ children }: { children: ReactNode }) {
       id: crypto.randomUUID(),
       name,
       description,
+      price: 0,
     };
 
     setProducts((previousProducts) => [

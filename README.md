@@ -24,6 +24,8 @@ La pantalla de clientes muestra además un botón verde «Crear cliente», fuera
 
 `ProductContext` mantiene la lista de productos y las operaciones `createProduct`, `updateProduct` y `deleteProduct`, siguiendo la estructura de clientes. Crear genera un ID con `crypto.randomUUID()`, editar usa `map` conservando el ID y eliminar usa `filter`; las actualizaciones son funcionales y no mutan el arreglo. `ProductsProvider` envuelve la aplicación para conservar los cambios al navegar. Al recargar se restauran los fixtures.
 
+La tabla de productos muestra Nombre, Descripción, Precio y Acciones. Cada fixture incluye `price` como un número entero en pesos chilenos, declarado como `number` en el tipo `Product`. La columna Precio usa `Intl.NumberFormat` con locale `es-CL` y moneda `CLP`, con separadores de miles y sin decimales. El formulario sigue solicitando nombre y descripción: los nuevos productos se inicializan con `price: 0` y editar conserva el precio existente. La captura y validación del precio en el formulario quedan pendientes.
+
 `Products` reutiliza `CreateModalButton` y coordina la selección y apertura de un único `ProductFormModal`. El modal conserva los campos Nombre (`name`) y Descripción (`description`), con espacio para varias líneas. Al crear muestra campos vacíos y «Crear producto»; al editar muestra los datos actuales, «Editar producto» y «Guardar cambios». Guardar llama al Context, cierra el modal y limpia la selección. «Cancelar», Escape y pulsar el fondo cierran sin guardar; cada apertura o cambio de producto inicializa los campos correspondientes. Se conservan los estilos y el espacio inferior para el botón fijo, sin añadir reglas de obligatoriedad ni otras validaciones.
 
 ## Decisiones definitivas para el MVP

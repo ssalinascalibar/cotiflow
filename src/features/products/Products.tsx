@@ -14,6 +14,13 @@ import ProductContext, { type Product } from "../../context/ProductContext";
 import CreateModalButton from "../../shared/components/CreateModalButton";
 import ProductFormModal from "./components/ProductFormModal";
 
+const priceFormatter = new Intl.NumberFormat("es-CL", {
+  style: "currency",
+  currency: "CLP",
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0,
+});
+
 export default function Products() {
   const context = useContext(ProductContext);
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
@@ -60,6 +67,7 @@ export default function Products() {
             <TableRow>
               <TableCell scope="col" sx={{ width: "30%" }}>Nombre</TableCell>
               <TableCell scope="col">Descripción</TableCell>
+              <TableCell scope="col" align="right">Precio</TableCell>
               <TableCell scope="col" sx={{ width: { xs: 104, sm: 120, md: 136 } }}>Acciones</TableCell>
             </TableRow>
           </TableHead>
@@ -68,6 +76,9 @@ export default function Products() {
               <TableRow key={product.id}>
                 <TableCell component="th" scope="row">{product.name}</TableCell>
                 <TableCell>{product.description}</TableCell>
+                <TableCell align="right" sx={{ fontVariantNumeric: "tabular-nums" }}>
+                  {priceFormatter.format(product.price)}
+                </TableCell>
                 <TableCell>
                   <Stack
                     direction="row"
