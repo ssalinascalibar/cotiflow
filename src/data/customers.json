@@ -2,16 +2,19 @@
   {
     "id": "customer-001",
     "name": "Comercial Los Alerces",
+    "rut": "76.123.456-0",
     "email": "contacto@losalerces.example"
   },
   {
     "id": "customer-002",
     "name": "Taller Horizonte",
+    "rut": "77.234.567-1",
     "email": "contacto@horizonte.example"
   },
   {
     "id": "customer-003",
     "name": "Estudio Arrayán",
+    "rut": "78.345.678-2",
     "email": "contacto@arrayan.example"
   }
 ]

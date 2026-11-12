@@ -62,6 +62,9 @@ export default function Customers() {
                 Nombre
               </TableCell>
               <TableCell scope="col">
+                RUT
+              </TableCell>
+              <TableCell scope="col">
                 Correo electrónico
               </TableCell>
               <TableCell
@@ -79,6 +82,7 @@ export default function Customers() {
                 <TableCell component="th" scope="row">
                   {customer.name}
                 </TableCell>
+                <TableCell>{customer.rut}</TableCell>
                 <TableCell>{customer.email}</TableCell>
                 <TableCell>
                   <Stack

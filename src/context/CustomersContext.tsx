@@ -4,6 +4,7 @@ import customersFixture from "../data/customers.json";
 export type Customer = {
   id: string;
   name: string;
+  rut: string;
   email: string;
 };
 
@@ -23,6 +24,7 @@ function CustomersProvider({ children }: { children: ReactNode }) {
     const newCustomer: Customer = {
       id: crypto.randomUUID(),
       name,
+      rut: "",
       email,
     };
 
