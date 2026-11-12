@@ -1,21 +1,25 @@
-import { useState } from 'react';
+import { useContext } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
-import customersFixture from '../../data/customers.json';
-import productsFixture from '../../data/products.json';
+import CustomersContext from '../../context/CustomersContext';
+import ProductContext from '../../context/ProductContext';
 
 export default function Dashboard() {
-  const [counts] = useState(() => ({
-    customers: customersFixture.length,
-    products: productsFixture.length,
-    quotations: 0,
-  }));
+  const customersContext = useContext(CustomersContext);
+  const productContext = useContext(ProductContext);
+
+  if (customersContext === null || productContext === null) {
+    throw new Error('Dashboard debe estar dentro de CustomersProvider y ProductsProvider');
+  }
+
+  const { customers } = customersContext;
+  const { products } = productContext;
 
   const counters = [
-    { label: 'Clientes', value: counts.customers },
-    { label: 'Productos', value: counts.products },
-    { label: 'Cotizaciones', value: counts.quotations },
+    { label: 'Clientes', value: customers.length },
+    { label: 'Productos', value: products.length },
+    { label: 'Cotizaciones', value: 0 },
   ];
 
   return (

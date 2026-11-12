@@ -8,7 +8,7 @@ El desarrollador mantiene el control de las decisiones, la implementación y la 
 
 La aplicación cuenta con una base React + Vite, React Router y MUI Community, una pantalla de inicio y listados de clientes y productos con fixtures. `App.jsx` renderiza `Sidebar` directamente, fuera de `Routes`, con enlaces de texto e iconos en este orden: Dashboard, Clientes y Productos. La navegación es una barra superior en móvil y tablet, con salto de línea cuando falta espacio, y lateral desde 1200 px. El enlace activo se resalta y los enlaces tienen un indicador visible de foco de teclado. `src/assets/icons/index.ts` centraliza los iconos Material Design utilizados: `MdDashboard` para Dashboard, `MdOutlinePeople` para Clientes y `MdOutlineInventory2` para Productos, todos a 24 px.
 
-La ruta `/dashboard` muestra tres tarjetas de MUI con los contadores de Clientes, Productos y Cotizaciones. El estado local se inicializa con las cantidades de los fixtures de clientes y productos, y con 0 cotizaciones por ahora. Solo conserva los contadores, sin efectos, consultas ni caché adicional. Las tarjetas se apilan en móvil y se distribuyen en tres columnas desde 600 px. Otros indicadores y contenido siguen pendientes de definición.
+La ruta `/dashboard` muestra tres tarjetas de MUI con los contadores de Clientes, Productos y Cotizaciones. Lee las listas compartidas de `CustomersContext` y `ProductContext` mediante `useContext` y deriva sus cantidades directamente de `customers.length` y `products.length`. Los contadores reflejan inmediatamente las altas y eliminaciones en memoria; editar un registro conserva la cantidad. Cotizaciones permanece en 0 por ahora. No duplica los contadores en estado local ni requiere efectos. Las tarjetas se apilan en móvil y se distribuyen en tres columnas desde 600 px. Otros indicadores y contenido siguen pendientes de definición.
 
 Los componentes de funcionalidades y navegación usan TSX, pero los puntos de entrada aún son JSX; la configuración de TypeScript `strict` y Vitest sigue pendiente. El alcance funcional y las etapas siguientes describen planes, no autorización para implementarlos.
 
@@ -49,7 +49,7 @@ Estas decisiones son la base acordada. El desarrollador puede revisarlas; Codex 
 | `customers` | Listar, crear, editar y eliminar clientes en memoria. |
 | `products` | Listar, crear, editar y eliminar productos en memoria. |
 | `quotations` | Crear y consultar cotizaciones, seleccionar cliente y productos, editar líneas y calcular importes según reglas que se definan. |
-| `dashboard` | Contadores iniciales de clientes y productos desde fixtures, y cotizaciones en 0. Otros indicadores y sincronización con futuras operaciones en memoria, pendientes. |
+| `dashboard` | Contadores de clientes y productos sincronizados con sus contextos en memoria, y cotizaciones en 0. Otros indicadores, pendientes. |
 | `settings` | Agrupar configuraciones acordadas; campos por definir y valores únicamente en memoria. |
 | Excel | Importar y exportar datos; entidades, columnas, validaciones y bibliotecas por definir. |
 | PDF | Generar y exportar cotizaciones; contenido, diseño y biblioteca por definir. La importación de PDF no está definida. |
