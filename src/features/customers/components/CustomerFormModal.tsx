@@ -13,7 +13,7 @@ type CustomerFormModalProps = {
   open: boolean;
   customer: Customer | null;
   onClose: () => void;
-  onSave: (name: string, email: string) => void;
+  onSave: (name: string, email: string, rut: string) => void;
 };
 
 export default function CustomerFormModal({
@@ -24,6 +24,7 @@ export default function CustomerFormModal({
 }: CustomerFormModalProps) {
   const [name, setName] = useState(customer?.name ?? "");
   const [email, setEmail] = useState(customer?.email ?? "");
+  const [rut, setRut] = useState(customer?.rut ?? "");
 
   return (
     <Dialog
@@ -45,7 +46,7 @@ export default function CustomerFormModal({
         component="form"
         onSubmit={(event) => {
           event.preventDefault();
-          onSave(name, email);
+          onSave(name, email, rut);
         }}
       >
         <DialogContent>
@@ -58,6 +59,15 @@ export default function CustomerFormModal({
               label="Nombre"
               autoComplete="name"
               autoFocus
+              fullWidth
+            />
+            <TextField
+              id="customer-rut"
+              name="rut"
+              value={rut}
+              onChange={(event) => setRut(event.target.value)}
+              label="RUT"
+              type="text"
               fullWidth
             />
             <TextField

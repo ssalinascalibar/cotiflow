@@ -31,11 +31,11 @@ export default function Customers() {
     setSelectedCustomer(null);
   };
 
-  const handleSaveCustomer = (name: string, email: string) => {
+  const handleSaveCustomer = (name: string, email: string, rut: string) => {
     if (selectedCustomer === null) {
-      createCustomer(name, email);
+      createCustomer(name, email, rut);
     } else {
-      updateCustomer(selectedCustomer.id, name, email);
+      updateCustomer(selectedCustomer.id, name, email, rut);
     }
 
     handleCloseCustomerModal();

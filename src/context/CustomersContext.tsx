@@ -10,8 +10,8 @@ export type Customer = {
 
 type CustomersContextValue = {
   customers: Customer[];
-  createCustomer: (name: string, email: string) => void;
-  updateCustomer: (id: string, name: string, email: string) => void;
+  createCustomer: (name: string, email: string, rut: string) => void;
+  updateCustomer: (id: string, name: string, email: string, rut: string) => void;
   deleteCustomer: (id: string) => void;
 };
 
@@ -20,11 +20,11 @@ const CustomersContext = createContext<CustomersContextValue | null>(null);
 function CustomersProvider({ children }: { children: ReactNode }) {
   const [customers, setCustomers] = useState<Customer[]>(customersFixture);
 
-  const createCustomer = (name: string, email: string) => {
+  const createCustomer = (name: string, email: string, rut: string) => {
     const newCustomer: Customer = {
       id: crypto.randomUUID(),
       name,
-      rut: "",
+      rut,
       email,
     };
 
@@ -34,10 +34,10 @@ function CustomersProvider({ children }: { children: ReactNode }) {
     ]);
   };
 
-  const updateCustomer = (id: string, name: string, email: string) => {
+  const updateCustomer = (id: string, name: string, email: string, rut: string) => {
     setCustomers((previousCustomers) =>
       previousCustomers.map((customer) =>
-        customer.id === id ? { ...customer, name, email } : customer,
+        customer.id === id ? { ...customer, name, email, rut } : customer,
       ),
     );
   };
