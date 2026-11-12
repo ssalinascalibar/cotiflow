@@ -13,7 +13,7 @@ type ProductFormModalProps = {
   open: boolean;
   product: Product | null;
   onClose: () => void;
-  onSave: (name: string, description: string) => void;
+  onSave: (name: string, description: string, price: number) => void;
 };
 
 export default function ProductFormModal({
@@ -24,6 +24,9 @@ export default function ProductFormModal({
 }: ProductFormModalProps) {
   const [name, setName] = useState(product?.name ?? "");
   const [description, setDescription] = useState(product?.description ?? "");
+  const [price, setPrice] = useState(String(product?.price ?? 0));
+  const numericPrice = Number(price);
+  const isPriceInvalid = !Number.isFinite(numericPrice);
 
   return (
     <Dialog
@@ -45,7 +48,11 @@ export default function ProductFormModal({
         component="form"
         onSubmit={(event) => {
           event.preventDefault();
-          onSave(name, description);
+          if (isPriceInvalid) {
+            return;
+          }
+
+          onSave(name, description, numericPrice);
         }}
       >
         <DialogContent>
@@ -67,6 +74,17 @@ export default function ProductFormModal({
               label="Descripción"
               multiline
               minRows={3}
+              fullWidth
+            />
+            <TextField
+              id="product-price"
+              name="price"
+              value={price}
+              onChange={(event) => setPrice(event.target.value)}
+              label="Precio (CLP)"
+              type="number"
+              error={isPriceInvalid}
+              helperText={isPriceInvalid ? "Ingresa un precio finito." : undefined}
               fullWidth
             />
           </Stack>

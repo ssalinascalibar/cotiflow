@@ -38,11 +38,11 @@ export default function Products() {
     setSelectedProduct(null);
   };
 
-  const handleSaveProduct = (name: string, description: string) => {
+  const handleSaveProduct = (name: string, description: string, price: number) => {
     if (selectedProduct === null) {
-      createProduct(name, description);
+      createProduct(name, description, price);
     } else {
-      updateProduct(selectedProduct.id, name, description);
+      updateProduct(selectedProduct.id, name, description, price);
     }
 
     handleCloseProductModal();

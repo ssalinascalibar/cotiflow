@@ -10,8 +10,8 @@ export type Product = {
 
 type ProductContextValue = {
   products: Product[];
-  createProduct: (name: string, description: string) => void;
-  updateProduct: (id: string, name: string, description: string) => void;
+  createProduct: (name: string, description: string, price: number) => void;
+  updateProduct: (id: string, name: string, description: string, price: number) => void;
   deleteProduct: (id: string) => void;
 };
 
@@ -20,12 +20,12 @@ const ProductContext = createContext<ProductContextValue | null>(null);
 function ProductsProvider({ children }: { children: ReactNode }) {
   const [products, setProducts] = useState<Product[]>(productsFixture);
 
-  const createProduct = (name: string, description: string) => {
+  const createProduct = (name: string, description: string, price: number) => {
     const newProduct: Product = {
       id: crypto.randomUUID(),
       name,
       description,
-      price: 0,
+      price,
     };
 
     setProducts((previousProducts) => [
@@ -34,10 +34,10 @@ function ProductsProvider({ children }: { children: ReactNode }) {
     ]);
   };
 
-  const updateProduct = (id: string, name: string, description: string) => {
+  const updateProduct = (id: string, name: string, description: string, price: number) => {
     setProducts((previousProducts) =>
       previousProducts.map((product) =>
-        product.id === id ? { ...product, name, description } : product,
+        product.id === id ? { ...product, name, description, price } : product,
       ),
     );
   };
