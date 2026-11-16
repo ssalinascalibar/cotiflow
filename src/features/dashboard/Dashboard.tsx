@@ -4,6 +4,7 @@ import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
 import CustomersContext from '../../context/CustomersContext';
 import ProductContext from '../../context/ProductContext';
+import QuotationsContext from '../../context/QuotationsContext';
 
 const priceFormatter = new Intl.NumberFormat('es-CL', {
   style: 'currency',
@@ -13,13 +14,15 @@ const priceFormatter = new Intl.NumberFormat('es-CL', {
 export default function Dashboard() {
   const customersContext = useContext(CustomersContext);
   const productContext = useContext(ProductContext);
+  const quotationsContext = useContext(QuotationsContext);
 
-  if (customersContext === null || productContext === null) {
+  if (customersContext === null || productContext === null || quotationsContext === null) {
     throw new Error('Falta un proveedor del Dashboard');
   }
 
   const { customers } = customersContext;
   const { products } = productContext;
+  const { quotations } = quotationsContext;
 
   const totalProductPrice = products.reduce(
   (total, product) => total + product.price,
@@ -29,7 +32,7 @@ export default function Dashboard() {
   const counters = [
     { label: 'Clientes', value: customers.length },
     { label: 'Productos', value: products.length },
-    { label: 'Cotizaciones', value: 0 },
+    { label: 'Cotizaciones', value: quotations.length },
   ];
 
   return (
