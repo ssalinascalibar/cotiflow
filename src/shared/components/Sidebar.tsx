@@ -6,12 +6,13 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 import { NavLink } from 'react-router';
-import { MdDashboard, MdOutlineInventory2, MdOutlinePeople } from '../../assets/icons';
+import { MdDashboard, MdOutlineInventory2, MdOutlinePeople, MdOutlineDescription } from '../../assets/icons';
 
 const navigationItems = [
   { to: '/dashboard', label: 'Dashboard', icon: MdDashboard },
   { to: '/customers', label: 'Clientes', icon: MdOutlinePeople },
   { to: '/products', label: 'Productos', icon: MdOutlineInventory2 },
+  { to: '/quotations', label: 'Cotizaciones', icon: MdOutlineDescription },
 ];
 
 export default function Sidebar() {

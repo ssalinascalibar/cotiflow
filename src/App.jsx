@@ -3,6 +3,7 @@ import Customers from './features/customers/Customers.tsx';
 import Dashboard from './features/dashboard/Dashboard.tsx';
 import Home from './features/home/Home.tsx';
 import Products from './features/products/Products.tsx';
+import Quotations from './features/quotations/Quotations.tsx';
 import Sidebar from './shared/components/Sidebar.tsx';
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/customers" element={<Customers />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/quotations" element={<Quotations />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
