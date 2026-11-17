@@ -10,7 +10,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
-import { MdEdit, MdDeleteOutline } from "../../assets/icons";
+import { MdEdit, MdDeleteOutline, MdPictureAsPdf } from "../../assets/icons";
 import CustomersContext from "../../context/CustomersContext";
 import ProductContext from "../../context/ProductContext";
 import QuotationsContext, { type Quotation } from "../../context/QuotationsContext";
@@ -138,7 +138,7 @@ export default function Quotations() {
                 <TableCell scope="col">Nombre</TableCell>
                 <TableCell scope="col">RUT</TableCell>
                 <TableCell scope="col">Correo electrónico</TableCell>
-                <TableCell scope="col" sx={{ width: { xs: 104, sm: 120, md: 136 } }}>
+                <TableCell scope="col" sx={{ width: { xs: 148, sm: 164, md: 180 } }}>
                   Acciones
                 </TableCell>
               </TableRow>
@@ -167,6 +167,13 @@ export default function Quotations() {
                         },
                       }}
                     >
+                      <IconButton
+                        type="button"
+                        disabled
+                        aria-label={`PDF de la cotización de ${quotation.customer.name}: aún no disponible`}
+                      >
+                        <MdPictureAsPdf size={20} aria-hidden="true" />
+                      </IconButton>
                       <IconButton
                         type="button"
                         aria-label={`Editar cotización de ${quotation.customer.name} del ${quotation.createdAt}`}
