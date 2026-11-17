@@ -1,1 +1,44 @@
-[]
+[
+  {
+    "id": "quotation-001",
+    "createdAt": "2026-11-16T12:00:00.000Z",
+    "customer": {
+      "id": "customer-001",
+      "name": "Comercial Los Alerces",
+      "rut": "76.123.456-0",
+      "email": "contacto@losalerces.example"
+    },
+    "items": [
+      {
+        "productId": "product-001",
+        "productName": "Cuaderno A5",
+        "quantity": 10,
+        "unitPrice": 3500
+      },
+      {
+        "productId": "product-002",
+        "productName": "Lápiz de tinta azul",
+        "quantity": 20,
+        "unitPrice": 500
+      }
+    ]
+  },
+  {
+    "id": "quotation-002",
+    "createdAt": "2026-11-17T12:00:00.000Z",
+    "customer": {
+      "id": "customer-002",
+      "name": "Taller Horizonte",
+      "rut": "77.234.567-1",
+      "email": "contacto@horizonte.example"
+    },
+    "items": [
+      {
+        "productId": "product-003",
+        "productName": "Carpeta de documentos",
+        "quantity": 5,
+        "unitPrice": 1500
+      }
+    ]
+  }
+]

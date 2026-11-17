@@ -12,23 +12,31 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import CustomersContext from "../../../context/CustomersContext";
 import ProductContext from "../../../context/ProductContext";
+import type { Quotation } from "../../../context/QuotationsContext";
 import type { QuotationDraft, QuotationLineDraft } from "../services/quotationDraft";
 
 type QuotationFormModalProps = {
   open: boolean;
+  quotation: Quotation | null;
   onClose: () => void;
   onSave: (draft: QuotationDraft) => string | null;
 };
 
 export default function QuotationFormModal({
   open,
+  quotation,
   onClose,
   onSave,
 }: QuotationFormModalProps) {
   const customersContext = useContext(CustomersContext);
   const productContext = useContext(ProductContext);
-  const [customerId, setCustomerId] = useState("");
-  const [lines, setLines] = useState<QuotationLineDraft[]>([]);
+  const [customerId, setCustomerId] = useState(quotation?.customer.id ?? "");
+  const [lines, setLines] = useState<QuotationLineDraft[]>(() =>
+    quotation?.items.map((item) => ({
+      productId: item.productId,
+      quantity: String(item.quantity),
+    })) ?? [],
+  );
   const [error, setError] = useState<string | null>(null);
 
   if (customersContext === null || productContext === null) {
@@ -59,7 +67,9 @@ export default function QuotationFormModal({
         },
       }}
     >
-      <DialogTitle id="quotation-form-title">Crear cotización</DialogTitle>
+      <DialogTitle id="quotation-form-title">
+        {quotation === null ? "Crear cotización" : "Editar cotización"}
+      </DialogTitle>
       <Box
         component="form"
         onSubmit={(event) => {
@@ -84,9 +94,15 @@ export default function QuotationFormModal({
               helperText={customers.length === 0 ? "No hay clientes disponibles." : undefined}
             >
               <MenuItem value="">Selecciona un cliente</MenuItem>
+              {quotation !== null && customerId === quotation.customer.id &&
+                !customers.some((customer) => customer.id === quotation.customer.id) && (
+                  <MenuItem value={quotation.customer.id} disabled>
+                    {quotation.customer.name} — Ya no está en el catálogo
+                  </MenuItem>
+                )}
               {customers.map((customer) => (
                 <MenuItem key={customer.id} value={customer.id}>
-                  {customer.name}
+                  {customer.id === quotation?.customer.id ? quotation.customer.name : customer.name}
                 </MenuItem>
               ))}
             </TextField>
@@ -111,9 +127,18 @@ export default function QuotationFormModal({
                     fullWidth
                   >
                     <MenuItem value="">Selecciona un producto</MenuItem>
+                    {quotation?.items[index] !== undefined &&
+                      line.productId === quotation.items[index].productId &&
+                      !products.some((product) => product.id === quotation.items[index].productId) && (
+                        <MenuItem value={quotation.items[index].productId} disabled>
+                          {quotation.items[index].productName} — Ya no está en el catálogo
+                        </MenuItem>
+                      )}
                     {products.map((product) => (
                       <MenuItem key={product.id} value={product.id}>
-                        {product.name}
+                        {product.id === quotation?.items[index]?.productId
+                          ? quotation.items[index].productName
+                          : product.name}
                       </MenuItem>
                     ))}
                   </TextField>
@@ -155,7 +180,7 @@ export default function QuotationFormModal({
             Cancelar
           </Button>
           <Button type="submit" variant="contained" sx={{ minHeight: 44 }}>
-            Guardar
+            {quotation === null ? "Guardar" : "Guardar cambios"}
           </Button>
         </DialogActions>
       </Box>

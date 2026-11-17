@@ -21,6 +21,7 @@ export type Quotation = {
 type QuotationsContextValue = {
   quotations: Quotation[];
   addQuotation: (quotation: Quotation) => void;
+  updateQuotation: (id: string, changes: Pick<Quotation, "customer" | "items">) => void;
 };
 
 const QuotationsContext = createContext<QuotationsContextValue | null>(null);
@@ -35,8 +36,18 @@ function QuotationsProvider({ children }: { children: ReactNode }) {
     ]);
   };
 
+  const updateQuotation = (id: string, changes: Pick<Quotation, "customer" | "items">) => {
+    setQuotations((previousQuotations) =>
+      previousQuotations.map((quotation) =>
+        quotation.id === id
+          ? { ...quotation, customer: changes.customer, items: changes.items }
+          : quotation,
+      ),
+    );
+  };
+
   return (
-    <QuotationsContext.Provider value={{ quotations, addQuotation }}>
+    <QuotationsContext.Provider value={{ quotations, addQuotation, updateQuotation }}>
       {children}
     </QuotationsContext.Provider>
   );

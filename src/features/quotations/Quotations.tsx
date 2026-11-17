@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -8,6 +9,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
+import { MdEdit } from "../../assets/icons";
 import CustomersContext from "../../context/CustomersContext";
 import ProductContext from "../../context/ProductContext";
 import QuotationsContext, { type Quotation } from "../../context/QuotationsContext";
@@ -20,28 +22,42 @@ export default function Quotations() {
   const customersContext = useContext(CustomersContext);
   const productContext = useContext(ProductContext);
   const [isQuotationModalOpen, setIsQuotationModalOpen] = useState(false);
+  const [selectedQuotation, setSelectedQuotation] = useState<Quotation | null>(null);
 
   if (context === null || customersContext === null || productContext === null) {
     throw new Error("Quotations requiere los proveedores de cotizaciones, clientes y productos");
   }
 
-  const { quotations, addQuotation } = context;
+  const { quotations, addQuotation, updateQuotation } = context;
   const { customers } = customersContext;
   const { products } = productContext;
 
-  const handleCreateQuotation = (draft: QuotationDraft): string | null => {
+  const handleCloseQuotationModal = () => {
+    setIsQuotationModalOpen(false);
+    setSelectedQuotation(null);
+  };
+
+  const handleSaveQuotation = (draft: QuotationDraft): string | null => {
     const validationError = validateQuotationDraft(draft);
     if (validationError !== null) {
       return validationError;
     }
 
-    const customer = customers.find((entry) => entry.id === draft.customerId);
+    const customer = selectedQuotation?.customer.id === draft.customerId
+      ? selectedQuotation.customer
+      : customers.find((entry) => entry.id === draft.customerId);
     if (customer === undefined) {
       return "El cliente seleccionado ya no está disponible. Selecciona otro cliente.";
     }
 
     const items: Quotation["items"] = [];
     for (const [index, line] of draft.items.entries()) {
+      const savedItem = selectedQuotation?.items[index];
+      if (savedItem !== undefined && savedItem.productId === line.productId) {
+        items.push({ ...savedItem, quantity: Number(line.quantity) });
+        continue;
+      }
+
       const product = products.find((entry) => entry.id === line.productId);
       if (product === undefined) {
         return `El producto de la línea ${index + 1} ya no está disponible. Selecciona otro producto.`;
@@ -55,9 +71,7 @@ export default function Quotations() {
       });
     }
 
-    const quotation: Quotation = {
-      id: crypto.randomUUID(),
-      createdAt: new Date().toISOString(),
+    const changes = {
       customer: {
         id: customer.id,
         name: customer.name,
@@ -67,8 +81,16 @@ export default function Quotations() {
       items,
     };
 
-    addQuotation(quotation);
-    setIsQuotationModalOpen(false);
+    if (selectedQuotation === null) {
+      addQuotation({
+        id: crypto.randomUUID(),
+        createdAt: new Date().toISOString(),
+        ...changes,
+      });
+    } else {
+      updateQuotation(selectedQuotation.id, changes);
+    }
+    handleCloseQuotationModal();
     return null;
   };
 
@@ -115,6 +137,9 @@ export default function Quotations() {
                 <TableCell scope="col">Nombre</TableCell>
                 <TableCell scope="col">RUT</TableCell>
                 <TableCell scope="col">Correo electrónico</TableCell>
+                <TableCell scope="col" sx={{ width: { xs: 76, sm: 92, md: 108 } }}>
+                  Acciones
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -126,6 +151,30 @@ export default function Quotations() {
                   </TableCell>
                   <TableCell>{quotation.customer.rut}</TableCell>
                   <TableCell>{quotation.customer.email}</TableCell>
+                  <TableCell>
+                    <IconButton
+                      type="button"
+                      aria-label={`Editar cotización de ${quotation.customer.name} del ${quotation.createdAt}`}
+                      onClick={() => {
+                        setSelectedQuotation(quotation);
+                        setIsQuotationModalOpen(true);
+                      }}
+                      sx={{
+                        width: 44,
+                        height: 44,
+                        color: "grey.400",
+                        "&.Mui-focusVisible": {
+                          outline: "2px solid currentColor",
+                          outlineOffset: -2,
+                        },
+                        "&:hover, &.Mui-focusVisible, &:active": {
+                          color: "primary.main",
+                        },
+                      }}
+                    >
+                      <MdEdit size={20} aria-hidden="true" />
+                    </IconButton>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -134,13 +183,18 @@ export default function Quotations() {
       )}
       <CreateModalButton
         label="Crear cotización"
-        onClick={() => setIsQuotationModalOpen(true)}
+        onClick={() => {
+          setSelectedQuotation(null);
+          setIsQuotationModalOpen(true);
+        }}
       />
       {isQuotationModalOpen && (
         <QuotationFormModal
+          key={selectedQuotation?.id ?? "create"}
           open={isQuotationModalOpen}
-          onClose={() => setIsQuotationModalOpen(false)}
-          onSave={handleCreateQuotation}
+          quotation={selectedQuotation}
+          onClose={handleCloseQuotationModal}
+          onSave={handleSaveQuotation}
         />
       )}
     </Box>
