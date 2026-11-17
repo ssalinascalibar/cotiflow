@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -9,7 +10,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
-import { MdEdit } from "../../assets/icons";
+import { MdEdit, MdDeleteOutline } from "../../assets/icons";
 import CustomersContext from "../../context/CustomersContext";
 import ProductContext from "../../context/ProductContext";
 import QuotationsContext, { type Quotation } from "../../context/QuotationsContext";
@@ -28,7 +29,7 @@ export default function Quotations() {
     throw new Error("Quotations requiere los proveedores de cotizaciones, clientes y productos");
   }
 
-  const { quotations, addQuotation, updateQuotation } = context;
+  const { quotations, addQuotation, updateQuotation, deleteQuotation } = context;
   const { customers } = customersContext;
   const { products } = productContext;
 
@@ -137,7 +138,7 @@ export default function Quotations() {
                 <TableCell scope="col">Nombre</TableCell>
                 <TableCell scope="col">RUT</TableCell>
                 <TableCell scope="col">Correo electrónico</TableCell>
-                <TableCell scope="col" sx={{ width: { xs: 76, sm: 92, md: 108 } }}>
+                <TableCell scope="col" sx={{ width: { xs: 104, sm: 120, md: 136 } }}>
                   Acciones
                 </TableCell>
               </TableRow>
@@ -152,28 +153,48 @@ export default function Quotations() {
                   <TableCell>{quotation.customer.rut}</TableCell>
                   <TableCell>{quotation.customer.email}</TableCell>
                   <TableCell>
-                    <IconButton
-                      type="button"
-                      aria-label={`Editar cotización de ${quotation.customer.name} del ${quotation.createdAt}`}
-                      onClick={() => {
-                        setSelectedQuotation(quotation);
-                        setIsQuotationModalOpen(true);
-                      }}
+                    <Stack
+                      direction="row"
                       sx={{
-                        width: 44,
-                        height: 44,
-                        color: "grey.400",
-                        "&.Mui-focusVisible": {
-                          outline: "2px solid currentColor",
-                          outlineOffset: -2,
-                        },
-                        "&:hover, &.Mui-focusVisible, &:active": {
-                          color: "primary.main",
+                        "& .MuiIconButton-root": {
+                          width: 44,
+                          height: 44,
+                          color: "grey.400",
+                          "&.Mui-focusVisible": {
+                            outline: "2px solid currentColor",
+                            outlineOffset: -2,
+                          },
                         },
                       }}
                     >
-                      <MdEdit size={20} aria-hidden="true" />
-                    </IconButton>
+                      <IconButton
+                        type="button"
+                        aria-label={`Editar cotización de ${quotation.customer.name} del ${quotation.createdAt}`}
+                        onClick={() => {
+                          setSelectedQuotation(quotation);
+                          setIsQuotationModalOpen(true);
+                        }}
+                        sx={{
+                          "&:hover, &.Mui-focusVisible, &:active": {
+                            color: "primary.main",
+                          },
+                        }}
+                      >
+                        <MdEdit size={20} aria-hidden="true" />
+                      </IconButton>
+                      <IconButton
+                        type="button"
+                        aria-label={`Eliminar cotización de ${quotation.customer.name} del ${quotation.createdAt}`}
+                        onClick={() => deleteQuotation(quotation.id)}
+                        sx={{
+                          "&:hover, &.Mui-focusVisible, &:active": {
+                            color: "error.main",
+                          },
+                        }}
+                      >
+                        <MdDeleteOutline size={20} aria-hidden="true" />
+                      </IconButton>
+                    </Stack>
                   </TableCell>
                 </TableRow>
               ))}

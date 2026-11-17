@@ -22,6 +22,7 @@ type QuotationsContextValue = {
   quotations: Quotation[];
   addQuotation: (quotation: Quotation) => void;
   updateQuotation: (id: string, changes: Pick<Quotation, "customer" | "items">) => void;
+  deleteQuotation: (id: string) => void;
 };
 
 const QuotationsContext = createContext<QuotationsContextValue | null>(null);
@@ -46,8 +47,16 @@ function QuotationsProvider({ children }: { children: ReactNode }) {
     );
   };
 
+  const deleteQuotation = (id: string) => {
+    setQuotations((previousQuotations) =>
+      previousQuotations.filter((quotation) => quotation.id !== id),
+    );
+  };
+
   return (
-    <QuotationsContext.Provider value={{ quotations, addQuotation, updateQuotation }}>
+    <QuotationsContext.Provider
+      value={{ quotations, addQuotation, updateQuotation, deleteQuotation }}
+    >
       {children}
     </QuotationsContext.Provider>
   );
